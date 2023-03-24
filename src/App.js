@@ -15,9 +15,9 @@ function App() {
       <Router>
         <Routes>
           <Route path='/'>
-            <Route index element={<Requiretable><Home title={'Home'}/></Requiretable>}/>
-            <Route path='cart' element={<Requiretable><Cart title='Cart'/></Requiretable>}/>
-            <Route path='orders' element={<Requiretable><Orders title='Orders'/></Requiretable>}/>
+            <Route index element={<Home title={'Home'}/>}/>
+            <Route path='cart' element={<Cart title='Cart'/>}/>
+            <Route path='orders' element={<Orders title='Orders'/>}/>
             <Route path='login/:id' element={<Login title='login'/>}/>
             <Route path='loginerror' element={<Loginerror/>}/>
             <Route path='*' element={<Notfound/>}/>
