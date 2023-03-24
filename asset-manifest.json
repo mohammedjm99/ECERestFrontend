@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/ECERestFrontend/static/css/main.4b558c79.css",
+    "main.js": "/ECERestFrontend/static/js/main.bf3affd7.js",
+    "index.html": "/ECERestFrontend/index.html",
+    "main.4b558c79.css.map": "/ECERestFrontend/static/css/main.4b558c79.css.map",
+    "main.bf3affd7.js.map": "/ECERestFrontend/static/js/main.bf3affd7.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.4b558c79.css",
+    "static/js/main.bf3affd7.js"
+  ]
+}
