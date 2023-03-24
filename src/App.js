@@ -16,13 +16,13 @@ function App() {
         <Routes>
           <Route path='/'>
             <Route index element={<Requiretable><Home title={'Home'}/></Requiretable>}/>
-            <Route path='/cart' element={<Requiretable><Cart title='Cart'/></Requiretable>}/>
-            <Route path='/orders' element={<Requiretable><Orders title='Orders'/></Requiretable>}/>
-            <Route path='/login/:id' element={<Login title='login'/>}/>
-            <Route path='/loginerror' element={<Loginerror/>}/>
-            <Route path='/*' element={<Notfound/>}/>
-            <Route path='/loading' element={<Loading title='tests'/>}/>
-            <Route path='/tests' element={<Tests title='tests'/>}/>
+            <Route path='cart' element={<Requiretable><Cart title='Cart'/></Requiretable>}/>
+            <Route path='orders' element={<Requiretable><Orders title='Orders'/></Requiretable>}/>
+            <Route path='login/:id' element={<Login title='login'/>}/>
+            <Route path='loginerror' element={<Loginerror/>}/>
+            <Route path='*' element={<Notfound/>}/>
+            <Route path='loading' element={<Loading title='tests'/>}/>
+            <Route path='tests' element={<Tests title='tests'/>}/>
           </Route>
         </Routes>
       </Router>
