@@ -7,26 +7,32 @@ import jwtDecode from "jwt-decode";
 
 
 const Orders = ({ title }) => {
-    const token = sessionStorage.getItem('token');
-    const id = token ? jwtDecode(token)._id : null;
+    const token = sessionStorage.getItem('token') || null;
     const [orders, setOrders] = useState(null);
+    const [error,setError] = useState(false);
+    const [loading,setLoading] = useState(false);
     useEffect(() => {
         const fetch = async () => {
             try {
-                const res = await request.get('/order/user/' + id, {
+                setLoading(true);
+                setError(false);
+                const res = await request.get('/order/user/' + jwtDecode(token)._id, {
                     headers: { token: `Bearer ${token}` },
                 });
+                setLoading(false);
                 setOrders(res.data);
             } catch (e) {
-                console.log(e);
+                setLoading(false);
+                setError(true)
             }
         }
         fetch();
-    }, [id, token]);
-    console.log(orders);
+    }, [token]);
     return (
         <div className="orders">
             <Topbar />
+            {loading && <p>Loading...</p>}
+            {error && <p className="empty">You are not allowed to order, please contact the restaurant management to provide you a QR code.</p>}
             <div className="orderswrapper">
                 {orders && (orders.length !== 0 ? orders.map((order,i)=>(
                     <div className="order" key={orders[i]._id}>

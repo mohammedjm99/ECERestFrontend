@@ -1,16 +1,16 @@
 .orders{
+    .empty{
+        color: #f54749;
+        margin-top: 30px;
+        text-align: center;
+        font-weight: 400;
+        font-size: 18px;
+    }
+    
     .orderswrapper {
         display: flex;
         flex-direction: column;
         gap: 15px;
-
-        .empty{
-            color: #f54749;
-            margin-top: 30px;
-            text-align: center;
-            font-weight: 400;
-            font-size: 18px;
-        }
 
         .order {
             box-shadow: 0 0 10px #dadada;

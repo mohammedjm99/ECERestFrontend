@@ -6,6 +6,7 @@ import {deleteProduct,controlQuantity,clear} from '../../redux/cartSlice';
 import jwtDecode from "jwt-decode";
 import {request} from '../../api/axiosMethods';
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 
 const Cart = ({ title }) => {
@@ -14,6 +15,9 @@ const Cart = ({ title }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
+    const [loading,setLoading] = useState(false);
+    const [error,setError] = useState(false);
+
     const handleCheckout = async()=>{
         const apiProducts = cartItems.map(item=>{
             return {
@@ -21,18 +25,21 @@ const Cart = ({ title }) => {
                 quantity:item.quantity
             }
         });
-        const token = sessionStorage.getItem('token');
-        const id = token ? jwtDecode(token)._id : null;
+        const token = sessionStorage.getItem('token') || null;
         try{
-            await request.post('/order/'+id,{
+            setLoading(true);
+            setError(false)
+            await request.post('/order/'+jwtDecode(token)._id,{
                 products: apiProducts
             },{
                 headers: { token: `Bearer ${token}` },
             });
+            setLoading(false);
             dispatch(clear());
             navigate('/orders');
         }catch(e){
-            dispatch(clear());
+            setLoading(false);
+            setError(true);
         }
     }
     return (
@@ -40,7 +47,7 @@ const Cart = ({ title }) => {
             <Topbar />
             <div className="items">
                 {cartItems.length === 0 
-                    ? <p className="empty">Please add items to your cart...</p> 
+                    ? <p className="empty">Cart is empty.</p> 
                     : cartItems.map(item => (
                         <div className='item' key={item._id}>
                             <div className="img">
@@ -64,7 +71,8 @@ const Cart = ({ title }) => {
                         <h3>Total:</h3>
                         <h3><span style={{ color: '#f54749', marginRight: '1px' }}>$</span>{totalPrice}</h3>
                     </div>
-                    <button onClick={handleCheckout}>Checkout</button>
+                    <button onClick={handleCheckout} disabled={loading}>Checkout</button>
+                    {error && <p className="empty">You are not allowed to order, please contact the restaurant management to provide you a QR code.</p>}
                 </div>
             }
             <Navbar title={title} />
