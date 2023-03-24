@@ -1,0 +1,126 @@
+.error{
+    color: #f54749;
+    margin-top: 30px;
+    text-align: center;
+    font-weight: 400;
+    font-size: 18px;
+}
+.productslist {
+
+    .categories {
+
+        .searchcontainer {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            background-color: #f7f7f7;
+            border-radius: 15px;
+            gap: 10px;
+            color: #444444;
+            margin-bottom: 10px;
+
+            input {
+                outline: none;
+                border: none;
+                width: 100%;
+                background-color: initial;
+                font-size: 18px;
+                color: #444444;
+            }
+
+        }
+
+        h3 {
+            text-transform: capitalize;
+        }
+
+        .list {
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: center;
+            gap: 10px 15px;
+            flex-wrap: wrap;
+
+            .item {
+                padding: 10px 20px;
+                background-color: #f7f7f7;
+                border-radius: 50px;
+                cursor: pointer;
+                user-select: none;
+
+                &.active {
+                    background-color: #f54749;
+                    color: #fcfeff;
+                }
+            }
+        }
+    }
+
+
+    .foods {
+        .title {
+            margin-bottom: 10px;
+        }
+
+        .wrapper {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+            align-items: flex-start;
+
+            .item {
+                box-sizing: border-box;
+                background-color: #fff;
+                box-shadow: 0 0 10px #dadada;
+                border-radius: 10px;
+                position: relative;
+                display: flex;
+                align-items: center;
+                padding: 10px;
+
+                .icon {
+                    font-size: 30px;
+                }
+
+                .img {
+                    object-fit: cover;
+                    height: 120px;
+                    text-align: center;
+                    position: relative;
+
+                    img {
+                        height: 100%;
+                        border-radius: 10px;
+                    }
+
+                }
+
+                .content {
+                    padding: 0 10px 5px;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    height: 100%;
+                    gap: 5px;
+
+                    p {
+                        color: #a0a0a0;
+                        font-size: 18px;
+                    }
+
+                    .control {
+                        background-color: #f54749;
+                        color: #fff;
+                        padding: 5px 10px;
+                        border-radius: 10px;
+                        white-space: nowrap;
+                        cursor: pointer;
+                        user-select: none;
+                        width: fit-content;
+                    }
+                }
+            }
+        }
+    }
+
+}
