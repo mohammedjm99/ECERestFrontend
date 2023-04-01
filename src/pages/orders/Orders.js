@@ -15,7 +15,7 @@ const Orders = ({ title }) => {
     const [loading, setLoading] = useState(false);
     
     useEffect(() => {
-        socket.current = io("http://172.20.10.4:3002");
+        socket.current = io("https://ecerestbackend.onrender.com");
         try{
             const decoded = jwtDecode(token);
             socket.current.emit('joinUserO',decoded._id);

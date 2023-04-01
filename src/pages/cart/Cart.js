@@ -18,7 +18,7 @@ const Cart = ({ title }) => {
     const socket = useRef();
 
     useEffect(()=>{
-        socket.current = io('http://172.20.10.4:3002');
+        socket.current = io('https://ecerestbackend.onrender.com');
 
         return () => {
             socket.current.disconnect();
