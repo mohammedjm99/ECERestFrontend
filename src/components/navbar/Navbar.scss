@@ -3,7 +3,7 @@
     padding: 0 10px;
     height: 60px;
     position: fixed;
-    bottom: 0;
+    bottom: 10px;
     left: 0;
     width: 100%;
     box-sizing: border-box;
@@ -14,9 +14,9 @@
         justify-content: space-around;
         align-items: center;
         box-shadow: 0 0px 10px #ccc;
-        background-color: #fcfeff;
-        flex: 1;
-        border-radius: 10px 10px 0 0;
+        background-color: rgb(254 254 254 / 85%);
+        flex: 1 1;
+        border-radius: 50px;
 
         .cart{
             position: relative;

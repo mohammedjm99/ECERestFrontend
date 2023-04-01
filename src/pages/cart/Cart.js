@@ -6,7 +6,8 @@ import {deleteProduct,controlQuantity,clear} from '../../redux/cartSlice';
 import jwtDecode from "jwt-decode";
 import {request} from '../../api/axiosMethods';
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState , useEffect, useRef } from "react";
+import io from 'socket.io-client';
 
 
 const Cart = ({ title }) => {
@@ -14,6 +15,15 @@ const Cart = ({ title }) => {
     const totalPrice = cartItems.reduce((a,b)=>a+b.price*b.quantity,0);
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const socket = useRef();
+
+    useEffect(()=>{
+        socket.current = io('http://172.20.10.4:3002');
+
+        return () => {
+            socket.current.disconnect();
+        };
+    },[]);
 
     const [loading,setLoading] = useState(false);
     const [error,setError] = useState(false);
@@ -29,13 +39,14 @@ const Cart = ({ title }) => {
         try{
             setLoading(true);
             setError(false)
-            await request.post('/order/'+jwtDecode(token)._id,{
+            const res = await request.post('/order/'+jwtDecode(token)._id,{
                 products: apiProducts
             },{
                 headers: { token: `Bearer ${token}` },
             });
             setLoading(false);
             dispatch(clear());
+            socket.current.emit("addOrder",res.data);
             navigate('/orders');
         }catch(e){
             setLoading(false);

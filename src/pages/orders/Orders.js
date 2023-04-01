@@ -1,16 +1,33 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState , useRef } from "react";
 import { request } from "../../api/axiosMethods";
 import Navbar from "../../components/navbar/Navbar";
 import Topbar from "../../components/topbar/Topbar";
 import './Orders.scss';
 import jwtDecode from "jwt-decode";
+import io from 'socket.io-client';
 
 
 const Orders = ({ title }) => {
+    const socket = useRef();
     const token = sessionStorage.getItem('token') || null;
     const [orders, setOrders] = useState(null);
-    const [error,setError] = useState(false);
-    const [loading,setLoading] = useState(false);
+    const [error, setError] = useState(false);
+    const [loading, setLoading] = useState(false);
+    
+    useEffect(() => {
+        socket.current = io("http://172.20.10.4:3002");
+        try{
+            const decoded = jwtDecode(token);
+            socket.current.emit('joinUserO',decoded._id);
+        }catch(e){
+        }
+        
+
+        return () => {
+            socket.current.disconnect();
+        };
+    }, []);
+
     useEffect(() => {
         const fetch = async () => {
             try {
@@ -34,24 +51,24 @@ const Orders = ({ title }) => {
             {loading && <p>Loading...</p>}
             {error && <p className="empty">You are not allowed to order, please contact the restaurant management to provide you a QR code.</p>}
             <div className="orderswrapper">
-                {orders && (orders.length !== 0 ? orders.map((order,i)=>(
+                {orders && (orders.length !== 0 ? orders.map((order, i) => (
                     <div className="order" key={orders[i]._id}>
 
-                        <h2>Order <span>#{i+1}</span></h2>
-                        {order.products.map(el=>(
+                        <h2>Order <span>#{i + 1}</span></h2>
+                        {order.products.map(el => (
                             <div className="food" key={el.product._id}><p>{el.product.name} <span>${el.product.price}</span></p> <p>x{el.quantity}</p><hr /></div>
                         ))}
 
-                        <div className="total">Total: <span>${order.products.reduce((a,b)=>a+b.product.price*b.quantity,0)}</span></div>
+                        <div className="total">Total: <span>${order.products.reduce((a, b) => a + b.product.price * b.quantity, 0)}</span></div>
 
-                        {order.status === 0 ? <div className="status" style={{color:'#F29339',borderColor:'#F29339'}}>pending</div> : 
-                        order.status === 1 ? <div className="status" style={{color:'#007E33',borderColor:'#007E33'}}>accepted</div> : 
-                        order.status === 2 ? <div className="status" style={{color:'#0099CC',borderColor:'#0099CC'}}>completed</div> : 
-                        order.status === 3 ? <div className="status" style={{color:'#FF5733',borderColor:'#FF5733'}}>rejected, please order again.</div> : 
-                        ''}
+                        {order.status === 0 ? <div className="status" style={{ color: '#F29339', borderColor: '#F29339' }}>pending</div> :
+                            order.status === 1 ? <div className="status" style={{ color: '#007E33', borderColor: '#007E33' }}>accepted</div> :
+                                order.status === 2 ? <div className="status" style={{ color: '#0099CC', borderColor: '#0099CC' }}>completed</div> :
+                                    order.status === 3 ? <div className="status" style={{ color: '#FF5733', borderColor: '#FF5733' }}>rejected, please order again.</div> :
+                                        ''}
 
                         {order.msg &&
-                        <div className="msg"><span>Message from kitchen:</span> {order.msg}</div>
+                            <div className="msg"><span>Message from kitchen:</span> {order.msg}</div>
                         }
                     </div>
                 ))
