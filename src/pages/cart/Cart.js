@@ -6,24 +6,14 @@ import {deleteProduct,controlQuantity,clear} from '../../redux/cartSlice';
 import jwtDecode from "jwt-decode";
 import {request} from '../../api/axiosMethods';
 import { useNavigate } from "react-router-dom";
-import { useState , useEffect, useRef } from "react";
-import io from 'socket.io-client';
+import { useState } from "react";
 
 
-const Cart = ({ title }) => {
+const Cart = ({ title , socket }) => {
     const cartItems = useSelector(state=>state.persistedReducer.cart.cartItems);
     const totalPrice = cartItems.reduce((a,b)=>a+b.price*b.quantity,0);
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const socket = useRef();
-
-    useEffect(()=>{
-        socket.current = io('https://ecerestbackend.onrender.com');
-
-        return () => {
-            socket.current.disconnect();
-        };
-    },[]);
 
     const [loading,setLoading] = useState(false);
     const [error,setError] = useState(false);
@@ -46,7 +36,7 @@ const Cart = ({ title }) => {
             });
             setLoading(false);
             dispatch(clear());
-            socket.current.emit("addOrder",res.data);
+            socket.emit("addOrder",res.data);
             navigate('/orders');
         }catch(e){
             setLoading(false);

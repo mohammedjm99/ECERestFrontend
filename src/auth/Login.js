@@ -13,7 +13,7 @@ const Login = ()=>{
                 navigate('/');
             } catch (e) {
                 sessionStorage.removeItem('token'); 
-                navigate('/loginerror');
+                navigate('/login/error');
             }
         }
         fetch();

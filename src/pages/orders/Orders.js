@@ -1,32 +1,16 @@
-import { useEffect, useState , useRef } from "react";
+import { useEffect, useState  } from "react";
 import { request } from "../../api/axiosMethods";
 import Navbar from "../../components/navbar/Navbar";
 import Topbar from "../../components/topbar/Topbar";
 import './Orders.scss';
 import jwtDecode from "jwt-decode";
-import io from 'socket.io-client';
 
 
 const Orders = ({ title }) => {
-    const socket = useRef();
     const token = sessionStorage.getItem('token') || null;
     const [orders, setOrders] = useState(null);
     const [error, setError] = useState(false);
     const [loading, setLoading] = useState(false);
-    
-    useEffect(() => {
-        socket.current = io("https://ecerestbackend.onrender.com");
-        try{
-            const decoded = jwtDecode(token);
-            socket.current.emit('joinUserO',decoded._id);
-        }catch(e){
-        }
-        
-
-        return () => {
-            socket.current.disconnect();
-        };
-    }, []);
 
     useEffect(() => {
         const fetch = async () => {
