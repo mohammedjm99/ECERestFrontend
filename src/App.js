@@ -21,12 +21,9 @@ function App() {
 
     useEffect(() => {
       try {
-        console.log('begin')
         const decoded = jwtDecode(token);
-        console.log('done1')
         socket.emit('joinUserO', decoded._id);
-        console.log('done2')
-      } catch (e) { console.log('error') }
+      } catch (e) {}
     }, []);
     return <Outlet />
   }
