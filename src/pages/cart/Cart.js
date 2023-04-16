@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 
-const Cart = ({ title , socket }) => {
+const Cart = ({ title }) => {
     const cartItems = useSelector(state=>state.persistedReducer.cart.cartItems);
     const totalPrice = cartItems.reduce((a,b)=>a+b.price*b.quantity,0);
     const navigate = useNavigate();
@@ -36,7 +36,7 @@ const Cart = ({ title , socket }) => {
             });
             setLoading(false);
             dispatch(clear());
-            socket.emit("addOrder",res.data);
+            // socket.emit("addOrder",res.data);
             navigate('/orders');
         }catch(e){
             setLoading(false);
