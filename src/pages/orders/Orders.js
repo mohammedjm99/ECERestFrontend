@@ -1,4 +1,4 @@
-import { useEffect, useState  } from "react";
+import { useEffect, useState } from "react";
 import { request } from "../../api/axiosMethods";
 import Navbar from "../../components/navbar/Navbar";
 import Topbar from "../../components/topbar/Topbar";
@@ -36,14 +36,14 @@ const Orders = ({ title }) => {
             {error && <p className="empty">You are not allowed to order, please contact the restaurant management to provide you a QR code.</p>}
             <div className="orderswrapper">
                 {orders && (orders.length !== 0 ? orders.map((order, i) => (
-                    <div className="order" key={orders[i]._id}>
+                    <div className="order" key={order._id}>
 
                         <h2>Order <span>#{i + 1}</span></h2>
-                        {order.products.map(el => (
-                            <div className="food" key={el.product._id}><p>{el.product.name} <span>${el.product.price}</span></p> <p>x{el.quantity}</p><hr /></div>
+                        {order.products.map((el, i) => (
+                            <div className="food" key={i}><p>{el.name} <span>${el.price}</span></p> <p>x{el.quantity}</p><hr /></div>
                         ))}
 
-                        <div className="total">Total: <span>${order.products.reduce((a, b) => a + b.product.price * b.quantity, 0)}</span></div>
+                        <div className="total">Total: <span>${order.products.reduce((a, b) => a + b.price * b.quantity, 0)}</span></div>
 
                         {order.status === 0 ? <div className="status" style={{ color: '#F29339', borderColor: '#F29339' }}>pending</div> :
                             order.status === 1 ? <div className="status" style={{ color: '#007E33', borderColor: '#007E33' }}>accepted</div> :
