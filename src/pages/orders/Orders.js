@@ -6,7 +6,7 @@ import './Orders.scss';
 import jwtDecode from "jwt-decode";
 
 
-const Orders = ({ title }) => {
+const Orders = ({ title, socket }) => {
     const token = sessionStorage.getItem('token') || null;
     const [orders, setOrders] = useState(null);
     const [error, setError] = useState(false);
@@ -29,6 +29,13 @@ const Orders = ({ title }) => {
         }
         fetch();
     }, [token]);
+
+    useEffect(() => {
+        socket.on('changeStatus', data => {
+            setOrders(prevOrders => prevOrders.map(order => order._id === data._id ? data : order));
+        })
+    }, []);
+    
     return (
         <div className="orders">
             <Topbar />

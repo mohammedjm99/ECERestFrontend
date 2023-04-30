@@ -39,7 +39,7 @@ function App() {
           <Route path='/' element={<Socketconnection />}>
             <Route index element={<Home title={'Home'} />} />
             <Route path='cart' element={<Cart title='Cart' socket={socket}/>} />
-            <Route path='orders' element={<Orders title='Orders' />} />
+            <Route path='orders' element={<Orders title='Orders' socket={socket}/>} />
             <Route path='loading' element={<Loading title='tests' />} />
           </Route>
           <Route path='*' element={<Notfound />} />

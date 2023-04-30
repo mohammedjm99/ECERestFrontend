@@ -16,7 +16,7 @@ const Cart = ({ title ,socket}) => {
     const dispatch = useDispatch();
 
     const [loading,setLoading] = useState(false);
-    const [error,setError] = useState(false);
+    const [error,setError] = useState('');
 
     const handleCheckout = async()=>{
         const apiProducts = cartItems.map(item=>{
@@ -28,7 +28,7 @@ const Cart = ({ title ,socket}) => {
         const token = sessionStorage.getItem('token') || null;
         try{
             setLoading(true);
-            setError(false)
+            setError('')
             const res = await request.post('/order/'+jwtDecode(token)._id,{
                 products: apiProducts
             },{
@@ -40,7 +40,10 @@ const Cart = ({ title ,socket}) => {
             navigate('/orders');
         }catch(e){
             setLoading(false);
-            setError(true);
+            if(e.message==='Invalid token specified') setError('You are not allowed to order, please contact the restaurant management to provide you a QR code.');
+            else if(e.message==='Request failed with status code 400') setError(e.response.data);
+            else setError('internal server error');
+            console.log(e);
         }
     }
     return (
@@ -73,7 +76,7 @@ const Cart = ({ title ,socket}) => {
                         <h3><span style={{ color: '#f54749', marginRight: '1px' }}>$</span>{totalPrice}</h3>
                     </div>
                     <button onClick={handleCheckout} disabled={loading}>Checkout</button>
-                    {error && <p className="empty">You are not allowed to order, please contact the restaurant management to provide you a QR code.</p>}
+                    {error && <p className="empty">{error}</p>}
                 </div>
             }
             <Navbar title={title} />
