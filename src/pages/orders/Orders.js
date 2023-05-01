@@ -32,7 +32,7 @@ const Orders = ({ title, socket }) => {
 
     useEffect(() => {
         socket.on('changeStatus', data => {
-            orders && setOrders(prevOrders => prevOrders.map(order => order._id === data._id ? data : order));
+            setOrders(prevOrders => prevOrders && prevOrders.map(order => order._id === data._id ? data : order));
         })
     }, []);
     
