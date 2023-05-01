@@ -33,7 +33,18 @@ const Orders = ({ title, socket }) => {
     useEffect(() => {
         socket.on('changeStatus', data => {
             setOrders(prevOrders => prevOrders && prevOrders.map(order => order._id === data._id ? data : order));
-        })
+        });
+
+        socket.on('removeOrder', ({id,table}) => {
+            try{
+                const token = sessionStorage.getItem('token');
+                const decoded = jwtDecode(token);
+                if(decoded._id===table){
+                    setOrders(prevOrders => prevOrders && prevOrders.filter(order => order._id !== id ));
+                }
+            }catch(e){
+            }
+        });
     }, []);
     
     return (

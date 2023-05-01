@@ -40,8 +40,13 @@ const Cart = ({ title ,socket}) => {
             navigate('/orders');
         }catch(e){
             setLoading(false);
+            if(e.response?.status === 403){
+                sessionStorage.removeItem('token');
+                setError("invalid token");
+            }
             if(e.message==='Invalid token specified') setError('You are not allowed to order, please contact the restaurant management to provide you a QR code.');
             else if(e.message==='Request failed with status code 400') setError(e.response.data);
+            else if(e.message==='Request failed with status code 403') setError("session expired");
             else setError('internal server error');
             console.log(e);
         }
