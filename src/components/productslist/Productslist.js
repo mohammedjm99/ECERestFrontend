@@ -73,7 +73,7 @@ const Productslist = () => {
                 <div className="wrapper">
 
                     {filteredProducts.length !== 0 ? filteredProducts.map(item => (
-                        <div className='item' key={item._id}>
+                        <div className='item' key={item._id} style={item.isVisible?{opacity:1}:{opacity:0.7}}>
                             <div className="img">
                                 <img src={item.img} alt="" />
                             </div>
@@ -81,7 +81,11 @@ const Productslist = () => {
                                 <h3>{item.name}</h3>
                                 <p>{item.category}</p>
                                 <h3><span style={{ color: '#f54749', marginRight: '1px' }}>$</span>{item.price}</h3>
-                                <span className='control' onClick={() => handleContolCart(item)}>{cart.some(s => s._id === item._id) ? "- Delete" : "+ Add"}</span>
+                                {item.isVisible?
+                                    <span className='control' onClick={() => handleContolCart(item)}>{cart.some(s => s._id === item._id) ? "- Delete" : "+ Add"}</span>
+                                :
+                                    <h4>Currently Unvailable</h4>
+                                }
                             </div>
                         </div>
                     ))
